@@ -1,0 +1,31 @@
+{
+  "name": "dia24",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest",
+    "test:u": "npm test test/user/delete.test.ts",
+    "test:p":"npm test test/post/create.test.ts",
+    "test:watch": "vitest --watch"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "bcryptjs": "^3.0.3",
+    "next": "16.0.8",
+    "next-auth": "^4.24.13",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "prisma": "^6.19.0",
+    "typescript": "^5",
+    "vitest": "^4.0.15"
+  }
+}

@@ -1,0 +1,9 @@
+Por que res lo convertimos a json en vitest?
+
+porque res contiene metadatos del objerto response, no solo contiene el body.
+entonces para poder testear la respuesta necesitamos parsear el body de la respuesta.
+por eso hacemos json = req.json()
+al hacer esto podemos acceder a las propiedades del body
+
+IMPORTANTE: Como vitest & nextjs trabaja con fetch no parsea de forma automatica como lo hace
+los test con jest+supertest.
