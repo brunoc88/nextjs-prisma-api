@@ -1,0 +1,2 @@
+# nextjs-prisma-api
+
