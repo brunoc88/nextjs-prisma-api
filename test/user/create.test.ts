@@ -3,8 +3,10 @@ import { describe, it, expect, beforeEach, afterAll } from 'vitest'
 import { POST } from '@/app/api/user/route'
 
 beforeEach(async () => {
+  await prisma.post.deleteMany()
   await prisma.user.deleteMany()
 })
+
 
 const makeReq = (body: any) =>
   new Request('http://localhost/api/user', {

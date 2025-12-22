@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "test": "vitest",
-    "test:u": "npm test test/user/delete.test.ts",
+    "test:u": "npm test test/user/",
     "test:p":"npm test test/post/create.test.ts",
     "test:watch": "vitest --watch"
   },

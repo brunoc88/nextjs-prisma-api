@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs'
 import { authorizeUser } from '@/app/api/auth/credentials-authorize'
 
 beforeEach(async () => {
+  await prisma.post.deleteMany()
   await prisma.user.deleteMany()
 
   await prisma.user.create({

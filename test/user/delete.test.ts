@@ -22,7 +22,9 @@ const makeReq = () => new Request('http://localhost/api/user', {
 })
 
 beforeEach(async () => {
-    await prisma.user.deleteMany({})
+    await prisma.post.deleteMany()
+    await prisma.user.deleteMany()
+    
 
     const created = await prisma.user.create({
         data: {

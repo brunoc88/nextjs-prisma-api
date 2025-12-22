@@ -22,7 +22,8 @@ const makeReq = (body: { email?: string, password?: string }) => new Request('ht
 })
 
 beforeEach(async () => {
-    await prisma.user.deleteMany({})
+    await prisma.post.deleteMany()
+    await prisma.user.deleteMany()
 
     const created = await prisma.user.create({
         data: {
@@ -47,7 +48,7 @@ describe('PUT', () => {
             }
         })
 
-        const res:any = await PUT(makeReq({
+        const res: any = await PUT(makeReq({
             email: "nuevo@gmail.com"
         }))
         const json = await res.json()
@@ -59,8 +60,8 @@ describe('PUT', () => {
     it('rechaza si no hay sesión', async () => {
         (getServerSession as any).mockResolvedValue(null)
 
-    
-        const res:any = await PUT(makeReq({ email: 'x@gmail.com' }))
+
+        const res: any = await PUT(makeReq({ email: 'x@gmail.com' }))
 
         expect(res.status).toBe(401)
     })
