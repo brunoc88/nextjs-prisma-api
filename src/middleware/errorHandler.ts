@@ -26,6 +26,10 @@ const errorHandler = (error: any) => {
     return NextResponse.json({ error: "ID inválido" }, { status: 400 })
   }
 
+  if(error.message === 'no encontrado') {
+    return NextResponse.json({error:'No encontrado'},{status:404})
+  }
+
   // Otros errores
   return NextResponse.json({ error: error.message }, { status: 500 })
 }
