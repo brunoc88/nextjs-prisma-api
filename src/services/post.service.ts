@@ -30,5 +30,8 @@ export const postService = {
         if(post.userId !== userId) throw new Error('sin autorizacion')
         
         return await postRepo.delete(id)
+    },
+    findAll: async () => {
+        return await postRepo.findAll()
     }
 }

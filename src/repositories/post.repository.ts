@@ -15,6 +15,14 @@ export const postRepo = {
 
     delete: async (id:number) => {
         return await prisma.post.delete({where:{id}})
+    },
+
+    findAll: async () => {
+        return await prisma.post.findMany({
+            include:{
+                user:true
+            }
+        })
     }
 
     

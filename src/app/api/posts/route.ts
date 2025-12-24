@@ -25,3 +25,16 @@ export const POST = async (req: Request) => {
         return errorHandler(error)
     }
 }
+
+export const GET = async (req:Request) => {
+    try {
+        await requireSessionUserId()
+
+        const blogs = await postService.findAll()
+
+        return NextResponse.json({msj:'Lista de blogs', blogs},{status:200})
+
+    } catch (error) {
+        return errorHandler(error)
+    }
+}

@@ -8,7 +8,7 @@
     "start": "next start",
     "test": "vitest",
     "test:u": "npm test test/user/",
-    "test:p":"npm test test/post/delete.test.ts",
+    "test:p":"npm test test/post/get.test.ts",
     "test:watch": "vitest --watch"
   },
   "dependencies": {
