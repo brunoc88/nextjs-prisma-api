@@ -51,7 +51,7 @@ describe('GET', () => {
         expect(body.blogs).toHaveLength(1)
     })
 
-    it.only('Obtener los post sin session', async () => {
+    it('Obtener los post sin session', async () => {
         (getServerSession as any).mockResolvedValue(null)
 
         const res = await GET(makeRequest())
