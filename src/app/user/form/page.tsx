@@ -5,13 +5,13 @@ import React, { useEffect, useState } from "react"
 import { handlePost, handlePut } from "./handleSubmit"
 import { useRouter } from "next/navigation"
 import { signIn, signOut } from "next-auth/react"
-import { email, object } from "zod"
+
 
 const UserForm = () => {
     const { data: session } = useSession()
     const [user, setUser] = useState<{ email: string, password: string }>({ email: "", password: "" })
     const [error, setError] = useState<string[]>([])
-    const [editPassword, setEditPassword] = useState<boolean>(true)
+    const [editPassword, setEditPassword] = useState<boolean>(false)
     const router = useRouter()
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const UserForm = () => {
 
         setUser({
             email: session.user.email,
-            password:""
+            password: ""
         })
     }, [session])
 
@@ -41,22 +41,22 @@ const UserForm = () => {
                     setError(Object.values(res.errors).flat())
                     return
                 }
-                signIn('credentials',{
-                    email:user.email,
-                    password:user.password,
-                    callbackUrl:'/home'
+                signIn('credentials', {
+                    email: user.email,
+                    password: user.password,
+                    callbackUrl: '/home'
                 })
-                
+
             } else {
                 let res;
-                if(!user.password || user.password.length === 0) res = await handlePut({email:user.email})
-                res = await handlePut(user)
-                console.log('error front', res)
+                if (!user.password || user.password.length === 0) res = await handlePut({ email: user.email })
+                else res = await handlePut(user)
+                
                 if (res?.errors) {
                     setError(Object.values(res.errors).flat())
                     return
                 }
-                await signIn("credentials", { redirect: false })
+                router.push('/home')
             }
         } catch (err: any) {
             setError([err.message]) // errores del servidor
@@ -64,17 +64,8 @@ const UserForm = () => {
     }
 
 
-    const handleLogout = async () => {
-        await signOut({ redirect: false })
-        router.push("/login")
-
-    }
     return (
         <>
-            {session && <button onClick={(e) => {
-                e.preventDefault()
-                handleLogout()
-            }}>LogOut</button>}
             {session ? (
                 <h2>Formulario de edición</h2>
             ) : (
@@ -101,23 +92,39 @@ const UserForm = () => {
                         />
                     </div>
 
-                    {!session || editPassword &&
-                        <>
+                    {(!session || editPassword) && (
+                        <div>
                             password:
                             <input
                                 type="password"
                                 name="password"
                                 id="password"
+                                value={user.password}
                                 onChange={handleUser}
                             />
-                        </>}
+                        </div>
+                    )}
 
-                    {(session && editPassword) &&<>
-                        <button onClick={(e) => {
-                            e.preventDefault()
-                            setEditPassword(prev => prev ? false : true)
-                        }}>Editar Password</button>
-                    </>}
+                    {session && (
+                        !editPassword ? (
+                            <button
+                                type="button"
+                                onClick={() => setEditPassword(true)}
+                            >
+                                Cambiar password
+                            </button>
+                        ) : (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setEditPassword(false)
+                                    setUser(prev => ({ ...prev, password: "" }))
+                                }}
+                            >
+                                No cambiar password
+                            </button>
+                        )
+                    )}
 
                     <div>
                         <button type="submit">Enviar</button>
