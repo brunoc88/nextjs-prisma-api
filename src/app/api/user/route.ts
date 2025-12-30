@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { EditUserSchema, UserSchema } from "@/lib/schemas/user.schema"
-import { createUserService, deleteUserServices, updateUserService } from "@/services/user.service"
+import { createUserService, deleteUserServices, findUserService, updateUserService } from "@/services/user.service"
 import errorHandler from "@/middleware/errorHandler"
 import { requireSessionUserId } from "@/lib/auth/requireSessionUserId"
 
