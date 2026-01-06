@@ -13,10 +13,16 @@ const Navbar = () => {
         <div>
             <nav>
                 {session ? (
-                    <button onClick={logOut}>LogOut</button>
+                    <div>
+                        <button onClick={logOut}>LogOut</button>
+                        <ul>
+                            <li><Link href={'/user/profile'}>Profile</Link></li>
+                            <li><Link href={'/home'}>Home</Link></li>
+                        </ul>
+                    </div>
                 ) : (
                     <ul>
-                        <li><Link href={'/login'}>LogIn</Link></li> 
+                        <li><Link href={'/login'}>LogIn</Link></li>
                         <li><Link href={'/user/form'}>Registro</Link></li>
                     </ul>
                 )}

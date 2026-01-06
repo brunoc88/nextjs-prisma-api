@@ -31,19 +31,30 @@ export const PUT = async (req: Request, {params}: { params:{id: string }}) => {
     }
 }
 
-export const DELETE = async (req:Request, {params}: {params:{id:string}}) => {
-    try {
-        const userId = await requireSessionUserId()
+export const DELETE = async (
+  req: Request,
+  context: { params: Promise<{ id: string }> }
+) => {
+  try {
+    const { id } = await context.params
 
-        const id = Number(params.id)
-        if(Number.isNaN(id)) {
-            throw new Error('ID inválido')
-        }
+    const userId = await requireSessionUserId()
+    const postId = Number(id)
 
-        await postService.delete(id, userId)
-
-        return NextResponse.json({msj:'Post eliminado'},{status:200})
-    } catch (error) {
-        return errorHandler(error)
+    if (Number.isNaN(postId)) {
+      return NextResponse.json(
+        { error: "ID inválido" },
+        { status: 400 }
+      )
     }
+
+    await postService.delete(postId, userId)
+
+    return NextResponse.json(
+      { msj: "Post eliminado" },
+      { status: 200 }
+    )
+  } catch (error) {
+    return errorHandler(error)
+  }
 }

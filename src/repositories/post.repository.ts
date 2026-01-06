@@ -23,7 +23,9 @@ export const postRepo = {
                 user:true
             }
         })
-    }
+    },
+
+    findMyPosts: async(userId:number) => await prisma.post.findMany({where:{userId}})
 
     
 }

@@ -4,7 +4,8 @@ import { loadPosts, getPosts } from "../dummyPosts"
 import { getServerSession } from "next-auth"
 import { vi, describe, it, expect, beforeEach, afterEach, afterAll } from "vitest"
 import { Post, User } from "@/types/types"
-import { GET } from "@/app/api/posts/route"
+import { GET} from "@/app/api/posts/route"
+//import {GET} from "@/app/api/posts/me/route"
 
 let posts: Post[]
 let users: User[]
@@ -54,12 +55,30 @@ describe('GET', () => {
     it('Obtener los post sin session', async () => {
         (getServerSession as any).mockResolvedValue(null)
 
-        const res = await GET(makeRequest())
+        const res = await GETPOST(makeRequest())
 
         expect(res.status).toBe(401)
     })
 })
 
+describe.only('GET', () =>{
+    it('Obtener mis post', async () => {
+        (getServerSession as any).mockResolvedValue({
+            user:{
+                id: users[0].id,
+                email: users[0].email
+            }
+        })
+
+        const res = await GET(makeRequest())
+        const body = await res.json()
+
+        expect(res.ok)
+        expect(res.status).toBe(200)
+        expect(body.blogs).not.toBe(null)
+
+    })
+})
 afterAll(async() => {
     await prisma.$disconnect()
 })

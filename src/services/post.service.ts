@@ -33,5 +33,8 @@ export const postService = {
     },
     findAll: async () => {
         return await postRepo.findAll()
+    },
+    findMyPosts: async (userId:number) => {
+        return await postRepo.findMyPosts(userId)
     }
 }
