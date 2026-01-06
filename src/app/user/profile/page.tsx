@@ -56,7 +56,7 @@ const MyProfilePage = () => {
     return (
         <div>
             <div>{session?.user?.email}</div>
-
+            <h2>Mis posts:</h2>
             <div>
                 <button onClick={() => router.push('/post')}>Crear post</button>
                 {posts.length > 0 ? (

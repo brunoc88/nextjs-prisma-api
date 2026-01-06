@@ -2,11 +2,15 @@ import NextAuth, { AuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { UserSchema } from "@/lib/schemas/user.schema"
-import {prisma} from "@/lib/prisma"
+import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
 export const authOptions: AuthOptions = {
     providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        }),
         CredentialsProvider({
             name: "Credentials",
             credentials: {
@@ -20,12 +24,12 @@ export const authOptions: AuthOptions = {
                 const user = await prisma.user.findUnique({
                     where: { email: parsed.data.email }
                 })
-                if(!user) return null
+                if (!user) return null
 
                 const isValid = await bcrypt.compare(parsed.data.password, user.password)
-                if(!isValid) return null
-                
-                return {id:user.id, email:user.email}
+                if (!isValid) return null
+
+                return { id: user.id, email: user.email }
             }
 
         })
