@@ -1,8 +1,10 @@
 import { postService } from "@/services/post.service"
 import { requireSessionUserId } from "@/lib/auth/requireSessionUserId"
+import CreatePostButton from "./CreatePostButton"
 
 const BlogList = async () => {
   const userId = await requireSessionUserId()
+  
 
   if (!userId) {
     return <p>Sin acceso, necesario loguearse</p>
@@ -10,9 +12,12 @@ const BlogList = async () => {
 
   const blogs = await postService.findAll()
 
+
   return (
     <div>
       <h1>Listado de Posts</h1>
+      
+       <CreatePostButton />
 
       {blogs.map((p) => (
         <ul key={p.id}>

@@ -63,6 +63,10 @@ const UserForm = () => {
         }
     }
 
+    const handleBack = (e: React.FormEvent) => {
+        e.preventDefault()
+        router.push('/login')
+    }
 
     return (
         <>
@@ -128,6 +132,7 @@ const UserForm = () => {
 
                     <div>
                         <button type="submit">Enviar</button>
+                        <button onClick={handleBack}>Volver</button>
                     </div>
                 </form>
             </>
