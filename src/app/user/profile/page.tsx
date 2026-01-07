@@ -1,5 +1,5 @@
 "use client"
-import { useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 
@@ -49,6 +49,27 @@ const MyProfilePage = () => {
     }
 
 
+    const handleDeleteAccount = async () => {
+        let ok = confirm('Realmente desea eliminar su cuenta?')
+        if (!ok) return
+
+        const res = await fetch('/api/user', {
+            method: 'DELETE'
+        })
+
+        if (!res.ok) {
+            const body = await res.json()
+            alert('ERROR AL ELIMINAR CUENTA! ' + body.error)
+            return // <-- Esto evita seguir con signOut
+        }
+
+        const body = await res.json()
+        console.log("error", body)
+        signOut({
+            callbackUrl: '/login'
+        })
+    }
+
     if (status === "loading") {
         return <p>Cargando...</p>
     }
@@ -56,14 +77,19 @@ const MyProfilePage = () => {
     return (
         <div>
             <div>{session?.user?.email}</div>
+            <div>
+                <button onClick={() => router.push('/user/form')}>Editar perfil</button>
+                <button onClick={() => handleDeleteAccount()}>Eliminar cuenta</button>
+            </div>
             <h2>Mis posts:</h2>
             <div>
                 <button onClick={() => router.push('/post')}>Crear post</button>
                 {posts.length > 0 ? (
                     posts.map((item, id) => (
                         <ul key={id}>
-                            <li>{item.title}</li>
-                            <li>{item.content}</li>
+                            <li>Titulo: {item.title}</li>
+                            <li>Contenido: {item.content}</li>
+                            <button onClick={() => router.push(`/post/${item.id}`)}>Editar</button>
                             <button onClick={() => handleDelete(item.id)}>Eliminar</button>
                         </ul>
                     ))

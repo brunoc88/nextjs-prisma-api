@@ -3,7 +3,7 @@ import errorHandler from "@/middleware/errorHandler"
 import { postService } from "@/services/post.service"
 import { NextResponse } from "next/server"
 
-
+// mis posts
 export const GET = async (req: Request) => {
     try {
         const userId = await requireSessionUserId()

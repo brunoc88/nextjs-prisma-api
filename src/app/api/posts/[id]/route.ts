@@ -4,16 +4,14 @@ import { requireSessionUserId } from "@/lib/auth/requireSessionUserId"
 import { NextResponse } from "next/server"
 import { postService } from "@/services/post.service"
 
-export const PUT = async (req: Request, {params}: { params:{id: string }}) => {
+export const PUT = async (req: Request, context:{params:Promise<{ id: string }>}) => {
     try {
 
         const userId = await requireSessionUserId()
 
-        const id = Number(params.id)
-        if (Number.isNaN(id)) {
-            throw new Error('ID inválido')
-        }
-
+        let {id} = await context.params
+        const postId = Number(id)
+ 
         const body = await req.json()
 
         const parsed = await postSchema.safeParseAsync(body)
@@ -23,7 +21,7 @@ export const PUT = async (req: Request, {params}: { params:{id: string }}) => {
             }, { status: 400 })
         }
 
-        const post = await postService.update(parsed.data, id, userId)
+        const post = await postService.update(parsed.data, postId, userId)
 
         return NextResponse.json({ msj: 'Post actualizado', post }, { status: 200 })
     } catch (error) {
@@ -54,6 +52,22 @@ export const DELETE = async (
       { msj: "Post eliminado" },
       { status: 200 }
     )
+  } catch (error) {
+    return errorHandler(error)
+  }
+}
+
+export const GET = async (req:Request, context:{params:Promise<{ id: string }>}) =>{
+  try {
+    await requireSessionUserId()
+
+    const { id } = await context.params
+    const postId = Number(id)
+
+    const res = await postService.findPost(postId)
+
+    return NextResponse.json({post:res},{status:200})
+
   } catch (error) {
     return errorHandler(error)
   }

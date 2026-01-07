@@ -66,6 +66,6 @@ export const DELETE = async (req: Request) => {
 
     return NextResponse.json({ msj: 'cuenta eliminada' }, { status: 200 })
   } catch (error) {
-    errorHandler(error)
+    return errorHandler(error)
   }
 }

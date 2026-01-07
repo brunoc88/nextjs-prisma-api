@@ -36,5 +36,8 @@ export const postService = {
     },
     findMyPosts: async (userId:number) => {
         return await postRepo.findMyPosts(userId)
+    },
+    findPost: async (id:number) => {
+        return await postRepo.find(id)
     }
 }

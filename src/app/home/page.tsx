@@ -6,6 +6,7 @@ const BlogList = async () => {
   const userId = await requireSessionUserId()
   
 
+  // corregir esto
   if (!userId) {
     return <p>Sin acceso, necesario loguearse</p>
   }
@@ -25,7 +26,8 @@ const BlogList = async () => {
             <div>
               <p><b>Título:</b> {p.title}</p>
               <p><b>Contenido:</b> {p.content}</p>
-              <p><b>Autor:</b> {p.user.email}</p>
+              {p.user?(<p><b>Autor:</b> {p.user.email}</p>):(<p>No Encontrado</p>)}
+
             </div>
           </li>
         </ul>
